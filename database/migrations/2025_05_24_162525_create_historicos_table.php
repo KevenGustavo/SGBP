@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('historicos', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('bem_id')->constrained(table:'bens');
+            $table->foreignId('bem_id')->constrained();
             $table->timestamp('data_historico');
             $table->string('localizacao_atual');
             $table->string('localizacao_anterior');

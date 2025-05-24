@@ -9,4 +9,6 @@ class Bem extends Model
 {
     /** @use HasFactory<\Database\Factories\BemFactory> */
     use HasFactory;
+
+    protected $guarded = [];
 }

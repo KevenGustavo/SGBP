@@ -3,42 +3,60 @@
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ 'Bens Registrados' }}
         </h2>
+        <x-primary-link-button :href="route('bens.create')">Registrar Novo Bem</x-primary-link-button>
     </x-slot>
+
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-xs sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    {{ 'Lista de bens' }}
+                    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                        <table class="w-full text-sm text-left rtl:text-right text-gray-500 ">
+                            <thead class="text-xs text-gray-700 uppercase bg-gray-300">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3">
+                                        Patrimonio
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Marca
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Uso
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Estado
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        <span class="sr-only">Edit</span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
 
-                    <ul role="list" class="divide-y divide-gray-100">
-                        <li class="flex justify-between gap-x-6 py-5">
-                            <div class="flex min-w-0 gap-x-4">
-                                <div class="min-w-0 flex-auto">
-                                    <p class="text-sm/6 font-semibold text-gray-900">Leslie Alexander</p>
-                                    <p class="mt-1 truncate text-xs/5 text-gray-500">leslie.alexander@example.com</p>
-                                </div>
-                            </div>
-                            <div class="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
-                                <p class="text-sm/6 text-gray-900">Co-Founder / CEO</p>
-                                <p class="mt-1 text-xs/5 text-gray-500">Last seen <time datetime="2023-01-23T13:23Z">3h
-                                        ago</time></p>
-                            </div>
-                        </li>
-                        <li class="flex justify-between gap-x-6 py-5">
-                            <div class="flex min-w-0 gap-x-4">
-                                <div class="min-w-0 flex-auto">
-                                    <p class="text-sm/6 font-semibold text-gray-900">Michael Foster</p>
-                                    <p class="mt-1 truncate text-xs/5 text-gray-500">michael.foster@example.com</p>
-                                </div>
-                            </div>
-                            <div class="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
-                                <p class="text-sm/6 text-gray-900">Co-Founder / CTO</p>
-                                <p class="mt-1 text-xs/5 text-gray-500">Last seen <time datetime="2023-01-23T13:23Z">3h
-                                        ago</time></p>
-                            </div>
-                        </li>
-                    </ul>
+                                @foreach ($bens as $bem)
+                                    <tr class="bg-white border-b border-gray-200 hover:bg-gray-100 ">
+                                        <th scope="row"
+                                            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                                            {{ $bem["patrimonio"] }}
+                                        </th>
+                                        <td class="px-6 py-4">
+                                            {{ $bem["marca"] }}
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            {{ $bem["tipoUso"] }}
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            {{ $bem["estado"] }}
+                                        </td>
+                                        <td class="px-6 py-4 text-right">
+                                            <a href="#" class="font-medium text-blue-600 hover:underline">Edit</a>
+                                        </td>
+                                    </tr>
+                                @endforeachd>
 
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>

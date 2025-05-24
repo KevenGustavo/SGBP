@@ -11,13 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('bens', function (Blueprint $table) {
+        Schema::create('bems', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('responsavel_id');
             $table->string('patrimonio');
             $table->text('descricao');
             $table->string('marca');
             $table->string('tipoUso');
+            $table->string('estado');
             $table->string('localizacao');
             $table->timestamps();
             $table->foreign('responsavel_id')->references('id')->on('users');
@@ -29,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('bens');
+        Schema::dropIfExists('bems');
     }
 };
