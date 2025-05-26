@@ -11,4 +11,8 @@ class Bem extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+    public function user(){
+        return $this->belongsTo(User::class,"responsavel_id");
+    }
 }

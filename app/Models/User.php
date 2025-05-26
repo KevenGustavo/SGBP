@@ -45,4 +45,8 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function bem(){
+        return $this->hasMany(Bem::class);
+    }
 }

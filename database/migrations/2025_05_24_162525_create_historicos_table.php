@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('localizacao_atual');
             $table->string('localizacao_anterior');
             $table->unsignedBigInteger('responsavel_atual_id');
-            $table->unsignedBigInteger('responsavel_anterior_id');
+            $table->unsignedBigInteger('responsavel_anterior_id')->nullable();
             $table->unsignedBigInteger('registrador_id');
 
             $table->foreign('responsavel_atual_id')->references('id')->on('users');

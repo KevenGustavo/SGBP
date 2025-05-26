@@ -11,7 +11,9 @@ Route::get('/', function () {
 Route::controller(BemController::class)->group(function(){
     Route::get('/bens','index')->middleware(['auth', 'verified'])->name('bens');
     Route::get('/bens/cadastrar','create')->middleware(['auth', 'verified'])->name('bens.create');
+    Route::get('/bens/{bem}','show')->where('bem', '[0-9]+')->middleware(['auth', 'verified'])->name('bens.show');
     Route::post('/bens','store')->middleware(['auth', 'verified'])->name('bens.store');
+    Route::get('/bens/{bem}/editar','edit')->where('bem', '[0-9]+')->middleware(['auth', 'verified'])->name('bens.edit');
 });
 
 Route::middleware('auth')->group(function () {

@@ -3,62 +3,50 @@
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ 'Bens Registrados' }}
         </h2>
-        <x-primary-link-button :href="route('bens.create')">Registrar Novo Bem</x-primary-link-button>
+        @can('create', App\Models\Bem::class)
+            <x-primary-link-button :href="route('bens.create')">Registrar Novo Bem</x-primary-link-button>
+        @endcan
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-xs sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-                        <table class="w-full text-sm text-left rtl:text-right text-gray-500 ">
-                            <thead class="text-xs text-gray-700 uppercase bg-gray-300">
-                                <tr>
-                                    <th scope="col" class="px-6 py-3">
-                                        Patrimonio
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        Marca
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        Uso
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        Estado
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        <span class="sr-only">Edit</span>
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-
-                                @foreach ($bens as $bem)
-                                    <tr class="bg-white border-b border-gray-200 hover:bg-gray-100 ">
-                                        <th scope="row"
-                                            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                            {{ $bem["patrimonio"] }}
-                                        </th>
-                                        <td class="px-6 py-4">
-                                            {{ $bem["marca"] }}
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            {{ $bem["tipoUso"] }}
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            {{ $bem["estado"] }}
-                                        </td>
-                                        <td class="px-6 py-4 text-right">
-                                            <a href="#" class="font-medium text-blue-600 hover:underline">Edit</a>
-                                        </td>
-                                    </tr>
-                                @endforeachd>
-
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+    <x-body-page>
+        <div class="relative overflow-x-auto shadow-md sm:rounded-lg" x-data="">
+            <table class="w-full text-sm text-left rtl:text-right text-gray-500">
+                <thead class="text-xs text-gray-700 uppercase bg-gray-300">
+                    <tr>
+                        <th scope="col" class="px-6 py-3">
+                            Patrimonio
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Marca
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Uso
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Estado
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($bens as $bem)
+                        <tr class="bg-white border-b border-gray-200 hover:bg-gray-100 cursor-pointer"
+                            @click="window.location.href = '{{ route('bens.show', ['bem' => $bem['id']]) }}'">
+                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                                {{ $bem['patrimonio'] }}
+                            </th>
+                            <td class="px-6 py-4">
+                                {{ $bem['marca'] }}
+                            </td>
+                            <td class="px-6 py-4">
+                                {{ $bem['tipoUso'] }}
+                            </td>
+                            <td class="px-6 py-4">
+                                {{ $bem['estado'] }}
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
         </div>
-    </div>
+    </x-body-page>
 </x-app-layout>

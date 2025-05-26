@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bem;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class BemController extends Controller
 {
@@ -16,10 +18,21 @@ class BemController extends Controller
     }
 
     public function create(){
-        return view('bens.create');
+        Gate::authorize("create",Bem::class);
+
+        $users = User::all();
+
+        return view('bens.create',["users"=>$users]);
+    }
+
+    public function show(Bem $bem){
+        $users = User::all();
+        return view("bens.show", ["bem" => $bem,"users"=>$users]);
     }
 
     public function store(Request $request){
+        Gate::authorize("create",Bem::class);
+
         $validated = $request->validate([
             "patrimonio"=>["required","unique:bems","max:255"],
             "marca"=>["required","max:50"],
@@ -41,5 +54,9 @@ class BemController extends Controller
         ]);
 
         return redirect("/bens");
+    }
+
+    public function edit (Bem $bem){
+        return view("bens.edit",["bem"=>$bem]);
     }
 }
