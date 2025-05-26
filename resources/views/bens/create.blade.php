@@ -54,9 +54,9 @@
                 <x-input-label for="estado" :value="__('Estado')" />
                 <x-select-input id="estado" name="estado" required>
                     <option value="Em Funcionamento">Em Funcionamento</option>
-                    <option value="Com defeito">Com Defeito</option>
+                    <option value="Com Defeito">Com Defeito</option>
                     <option value="Ocioso">Ocioso</option>
-                    <option value="Em Manutenção">Em manutenção</option>
+                    <option value="Em Manutenção">Em Manutenção</option>
                 </x-select-input>
                 <x-input-error class="mt-2" :messages="$errors->get('estado')" />
             </div>

@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\Bem;
+use App\Observers\BemObserver;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +21,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Bem::observe(BemObserver::class);
     }
 }

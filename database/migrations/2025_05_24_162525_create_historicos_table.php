@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('historicos', function (Blueprint $table) {
             $table->id();
             $table->foreignId('bem_id')->constrained();
-            $table->timestamp('data_historico');
+            $table->timestamps();
             $table->string('localizacao_atual');
-            $table->string('localizacao_anterior');
+            $table->string('localizacao_anterior')->nullable();
             $table->unsignedBigInteger('responsavel_atual_id');
             $table->unsignedBigInteger('responsavel_anterior_id')->nullable();
             $table->unsignedBigInteger('registrador_id');

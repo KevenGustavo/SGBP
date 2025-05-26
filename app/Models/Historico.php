@@ -9,4 +9,6 @@ class Historico extends Model
 {
     /** @use HasFactory<\Database\Factories\HistoricoFactory> */
     use HasFactory;
+
+    protected $guarded = [];
 }

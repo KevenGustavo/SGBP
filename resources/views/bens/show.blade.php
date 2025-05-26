@@ -51,7 +51,7 @@
 
                 <div x-show="openResponsavel" x-cloak x-transition:enter="modal-transition modal-enter"
                     x-transition:leave="modal-transition modal-leave-to"
-                    class="fixed inset-0 bg-gray-600 bg-opacity-75 flex items-center justify-center p-4 z-50"
+                    class="fixed inset-0 bg-gray-400/80 flex items-center justify-center p-4 z-50"
                     @keydown.escape.window="openResponsavel = false">
 
                     <div @click.away="openResponsavel = false" class="bg-white rounded-lg shadow-xl p-6 w-full max-w-sm"
@@ -64,12 +64,17 @@
                             <h3 class="text-xl font-semibold text-gray-900">Mudar Responsável pelo Bem</h3>
                         </div>
 
-                        <form @submit.prevent="console.log('Formulário enviado!')">
+                        <form method="post" action="{{ route('bens.updateResponsavel', ['bem' => $bem->id]) }}"
+                            class="space-y-6 max-w-xl">
+                            @csrf
+                            @method('patch')
                             <div class="mb-6">
                                 <x-input-label for="responsavel" value="Novo Responsável" />
                                 <x-select-input id="responsavel" name="responsavel" required>
                                     @foreach ($users as $user)
-                                        <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                        <option value="{{ $user->id }}"
+                                            {{ old('responsavel_id', $bem->responsavel_id) == $user->id ? 'selected' : '' }}>
+                                            {{ $user->name }}</option>
                                     @endforeach
                                 </x-select-input>
                                 <x-input-error class="mt-2" :messages="$errors->get('responsavel')" />
@@ -93,7 +98,7 @@
 
                 <div x-show="openLocalizacao" x-cloak x-transition:enter="modal-transition modal-enter"
                     x-transition:leave="modal-transition modal-leave-to"
-                    class="fixed inset-0 bg-gray-600 bg-opacity-75 flex items-center justify-center p-4 z-50"
+                    class="fixed inset-0 bg-gray-400/80 flex items-center justify-center p-4 z-50"
                     @keydown.escape.window="openLocalizacao = false">
 
                     <div @click.away="openLocalizacao = false" class="bg-white rounded-lg shadow-xl p-6 w-full max-w-sm"
@@ -106,7 +111,10 @@
                             <h3 class="text-xl font-semibold text-gray-900">Mudar Localização do Bem</h3>
                         </div>
 
-                        <form @submit.prevent="console.log('Formulário enviado!')">
+                        <form method="post" action="{{ route('bens.updateLocalizacao', ['bem' => $bem->id]) }}"
+                            class="space-y-6 max-w-xl">
+                            @csrf
+                            @method('patch')
                             <div class="mb-6">
                                 <x-input-label for="localizacao" value="Nova Localização" />
                                 <x-text-input id="localizacao" name="localizacao" type="text" class="mt-1 block w-full"

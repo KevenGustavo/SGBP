@@ -14,6 +14,9 @@ Route::controller(BemController::class)->group(function(){
     Route::get('/bens/{bem}','show')->where('bem', '[0-9]+')->middleware(['auth', 'verified'])->name('bens.show');
     Route::post('/bens','store')->middleware(['auth', 'verified'])->name('bens.store');
     Route::get('/bens/{bem}/editar','edit')->where('bem', '[0-9]+')->middleware(['auth', 'verified'])->name('bens.edit');
+    Route::patch('/bens/{bem}/detalhes','updateDetalhes')->where('bem', '[0-9]+')->middleware(['auth', 'verified'])->name('bens.updateDetalhes');
+    Route::patch('/bens/{bem}/localizacao','updateLocalizacao')->where('bem', '[0-9]+')->middleware(['auth', 'verified'])->name('bens.updateLocalizacao');
+    Route::patch('/bens/{bem}/responsavel','updateResponsavel')->where('bem', '[0-9]+')->middleware(['auth', 'verified'])->name('bens.updateResponsavel');
 });
 
 Route::middleware('auth')->group(function () {
