@@ -15,4 +15,12 @@ class Bem extends Model
     public function user(){
         return $this->belongsTo(User::class,"responsavel_id");
     }
+
+    public function historicos(){
+        return $this->hasMany(Historico::class)->orderBy("created_at","desc");
+    }
+
+    public function ultimoHistorico(){
+        return $this->hasOne(Historico::class)->latestOfMany();
+    }
 }

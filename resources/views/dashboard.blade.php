@@ -6,6 +6,8 @@
     </x-slot>
 
     <x-body-page>
-        {{ __("You're logged in!") }}
+        <div class="flex justify-between bg-white overflow-hidden shadow-xs sm:rounded-lg p-6 text-gray-900">
+            {{ __("You're logged in!") }}
+        </div>
     </x-body-page>
 </x-app-layout>

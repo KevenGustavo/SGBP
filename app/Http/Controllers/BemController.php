@@ -32,6 +32,10 @@ class BemController extends Controller
 
     public function show(Bem $bem)
     {
+        $bem->load(["historicos"=>function($query){
+            $query->with("registrador","responsavelAnterior","responsavelAtual");
+        }]);
+
         $users = User::all();
 
         return view("bens.show", ["bem" => $bem, "users" => $users]);
@@ -51,9 +55,9 @@ class BemController extends Controller
             "descricao" => ["required"],
         ]);
 
-        try {
-            DB::beginTransaction();
+        DB::beginTransaction();
 
+        try {
             $bem = Bem::create([
                 "patrimonio" => $validated["patrimonio"],
                 "marca" => $validated["marca"],
@@ -67,7 +71,6 @@ class BemController extends Controller
             DB::commit();
 
             return redirect()->route("bens");
-
         } catch (Exception $e) {
             DB::rollBack();
 
@@ -116,11 +119,24 @@ class BemController extends Controller
             "localizacao" => ["required", "max:100"],
         ]);
 
-        $bem->update([
-            "localizacao" => $validated["localizacao"],
-        ]);
+        DB::beginTransaction();
 
-        return redirect()->route("bens.show", ["bem" => $bem->id]);
+        try {
+            $bem->update([
+                "localizacao" => $validated["localizacao"],
+            ]);
+
+            DB::commit();
+
+            return redirect()->route("bens.show", ["bem" => $bem->id]);
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            return response()->json([
+                'message' => 'Ocorreu um erro ao atualizar a localização do Bem e seu Histórico.',
+                'error' => $e->getMessage() // Opcional: enviar detalhes do erro (cuidado em produção)
+            ], 500);
+        }
     }
 
     public function updateResponsavel(Request $request, Bem $bem)
@@ -131,10 +147,23 @@ class BemController extends Controller
             "responsavel" => ["required", "exists:users,id"],
         ]);
 
-        $bem->update([
-            "responsavel_id" => $validated["responsavel"],
-        ]);
+        DB::beginTransaction();
 
-        return redirect()->route("bens.show", ["bem" => $bem->id]);
+        try {
+            $bem->update([
+                "responsavel_id" => $validated["responsavel"],
+            ]);
+
+            DB::commit();
+
+            return redirect()->route("bens.show", ["bem" => $bem->id]);
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            return response()->json([
+                'message' => 'Ocorreu um erro ao atualizao o responsavel do Bem e seu Histórico.',
+                'error' => $e->getMessage() // Opcional: enviar detalhes do erro (cuidado em produção)
+            ], 500);
+        }
     }
 }

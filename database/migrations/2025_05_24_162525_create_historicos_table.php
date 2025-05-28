@@ -14,12 +14,13 @@ return new class extends Migration
         Schema::create('historicos', function (Blueprint $table) {
             $table->id();
             $table->foreignId('bem_id')->constrained();
-            $table->timestamps();
+            $table->string('tipo');
             $table->string('localizacao_atual');
             $table->string('localizacao_anterior')->nullable();
             $table->unsignedBigInteger('responsavel_atual_id');
             $table->unsignedBigInteger('responsavel_anterior_id')->nullable();
             $table->unsignedBigInteger('registrador_id');
+            $table->timestamps();
 
             $table->foreign('responsavel_atual_id')->references('id')->on('users');
             $table->foreign('responsavel_anterior_id')->references('id')->on('users');
