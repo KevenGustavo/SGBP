@@ -12,6 +12,9 @@ class Bem extends Model
 
     protected $guarded = [];
 
+    public const TIPOS_USO = ["Professor", "Pesquisa", "Extensão"];
+    public const ESTADOS = ["Em Funcionamento", "Com Defeito", "Ocioso", "Em Manutenção"];
+
     public function user(){
         return $this->belongsTo(User::class,"responsavel_id");
     }

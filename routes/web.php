@@ -17,6 +17,7 @@ Route::controller(BemController::class)->group(function(){
     Route::patch('/bens/{bem}/detalhes','updateDetalhes')->where('bem', '[0-9]+')->middleware(['auth', 'verified'])->name('bens.updateDetalhes');
     Route::patch('/bens/{bem}/localizacao','updateLocalizacao')->where('bem', '[0-9]+')->middleware(['auth', 'verified'])->name('bens.updateLocalizacao');
     Route::patch('/bens/{bem}/responsavel','updateResponsavel')->where('bem', '[0-9]+')->middleware(['auth', 'verified'])->name('bens.updateResponsavel');
+    Route::delete('/bens/{bem}','destroy')->where('bem', '[0-9]+')->middleware(['auth', 'verified'])->name('bens.delete');
 });
 
 Route::middleware('auth')->group(function () {

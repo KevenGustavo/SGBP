@@ -12,12 +12,41 @@ use Illuminate\Validation\Rule;
 
 class BemController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $bens = Bem::all();
+        $users = User::orderBy('name')->get();
+        $tiposUso = array_merge(["Todos"],Bem::TIPOS_USO);
+        $estados = array_merge(["Todos"],Bem::ESTADOS);
+
+        $query = Bem::with('user');
+
+        if ($request->filled('search_query')) {
+            $searchTerm = $request->input('search_query');
+            $query->where(function ($q) use ($searchTerm) {
+                $q->where('patrimonio', 'LIKE', "%{$searchTerm}%")
+                  ->orWhere('marca', 'LIKE', "%{$searchTerm}%");
+            });
+        }
+
+        if ($request->filled('tipo_uso') && in_array($request->input("tipo_uso"),[1,2,3])) {
+            $query->where('tipoUso', $tiposUso[$request->input('tipo_uso')]);
+        }
+
+        if ($request->filled('estado') && in_array($request->input("estado"),[1,2,3,4])) {
+            $query->where('estado', $estados[$request->input('estado')]);
+        }
+
+        if ($request->filled('responsavel_id')) {
+            $query->where('responsavel_id', $request->input('responsavel_id'));
+        }
+
+        $bens = $query->orderBy('patrimonio', 'asc')->paginate(10);
 
         return view('bens.index', [
-            "bens" => $bens
+            "bens" => $bens,
+            "users" => $users,
+            "tiposUso" => $tiposUso,
+            "estados" => $estados,
         ]);
     }
 
@@ -25,7 +54,7 @@ class BemController extends Controller
     {
         Gate::authorize("create", Bem::class);
 
-        $users = User::all();
+        $users = User::orderBy('name')->get();
 
         return view('bens.create', ["users" => $users]);
     }
@@ -50,8 +79,8 @@ class BemController extends Controller
             "marca" => ["required", "max:50"],
             "localizacao" => ["required", "max:100"],
             "responsavel" => ["required", "exists:users,id"],
-            "tipoUso" => ["required", Rule::in(["Professor", "Pesquisa", "Extensão"])],
-            "estado" => ["required", Rule::in(["Em Funcionamento", "Com Defeito", "Ocioso", "Em Manutenção"])],
+            "tipoUso" => ["required", Rule::in(Bem::TIPOS_USO)],
+            "estado" => ["required", Rule::in(Bem::ESTADOS)],
             "descricao" => ["required"],
         ]);
 
@@ -95,8 +124,8 @@ class BemController extends Controller
         $validated = $request->validate([
             "patrimonio" => ["required", "max:255", Rule::unique("bems")->ignore($bem->id)],
             "marca" => ["required", "max:50"],
-            "tipoUso" => ["required", Rule::in(["Professor", "Pesquisa", "Extensão"])],
-            "estado" => ["required", Rule::in(["Em Funcionamento", "Com Defeito", "Ocioso", "Em Manutenção"])],
+            "tipoUso" => ["required", Rule::in(Bem::TIPOS_USO)],
+            "estado" => ["required", Rule::in(Bem::ESTADOS)],
             "descricao" => ["required"],
         ]);
 
@@ -165,5 +194,13 @@ class BemController extends Controller
                 'error' => $e->getMessage() // Opcional: enviar detalhes do erro (cuidado em produção)
             ], 500);
         }
+    }
+
+    public function destroy( Bem $bem){
+        Gate::authorize("delete", Bem::class);
+
+        $bem->delete();
+
+        return redirect()->route("bens");
     }
 }

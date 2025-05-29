@@ -7,13 +7,13 @@
 
     <x-body-page>
         <div class="flex justify-between bg-white overflow-hidden shadow-xs sm:rounded-lg p-6 text-gray-900"
-            x-data="{ openResponsavel: false, openLocalizacao: false }">
+            x-data="{ openResponsavel: false, openLocalizacao: false, openDelete: false}">
 
-            <dl class="max-3xl text-gray-900 divide-y divide-gray-300">
+            <dl class="w-lg text-gray-900 divide-y divide-gray-300">
                 <h3 class="text-2xl font-semibold text-gray-800 mb-2 border-b pb-1">Informações sobre o Bem</h3>
 
                 <div class="flex flex-col pb-1">
-                    <dt class="mb-1 text-gray-600 md:text-lg ">Patrimonio</dt>
+                    <dt class="mb-1 text-gray-600 md:text-lg ">Patrimônio</dt>
                     <dd class="text-lg font-semibold">{{ $bem->patrimonio }}</dd>
                 </div>
                 <div class="flex flex-col pb-1">
@@ -38,23 +38,31 @@
                 </div>
                 <div class="flex flex-col pb-2">
                     <dt class="mb-1 text-gray-600 md:text-lg ">Descrição</dt>
-                    <dd class="text-lg font-semibold">{{ $bem->descricao }}</dd>
+                    <dd class="text-lg font-semibold">
+                        <textarea id="descricao" name="descricao" rows="10" disabled
+                            class=" block p-2.5 w-full text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 resize-none">{{ $bem->descricao }}</textarea>
+                    </dd>
                 </div>
             </dl>
 
             @can('update', App\Models\Bem::class)
                 <div class="flex flex-col gap-2">
-                    <x-primary-link-button href="{{ route('bens.edit', ['bem' => $bem['id']]) }}">Editar
-                        Bem</x-primary-link-button>
+                    <x-primary-link-button href="{{ route('bens.edit', ['bem' => $bem['id']]) }}">
+                        Editar Bem
+                    </x-primary-link-button>
 
                     <x-primary-button @click="openResponsavel = true">Transferir Responsabilidade</x-primary-button>
 
                     <x-primary-button @click="openLocalizacao = true">Transferir Localização</x-primary-button>
+
+                    <x-danger-button @click="openDelete = true">Excluir Bem</x-danger-button>
                 </div>
 
                 @include('bens.partials.responsavel-modal-form')
 
                 @include('bens.partials.localizacao-modal-form')
+
+                @include('bens.partials.delete-modal-form')
             @endcan
 
         </div>
