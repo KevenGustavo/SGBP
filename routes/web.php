@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BemController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -18,6 +19,11 @@ Route::controller(BemController::class)->group(function(){
     Route::patch('/bens/{bem}/localizacao','updateLocalizacao')->where('bem', '[0-9]+')->middleware(['auth', 'verified'])->name('bens.updateLocalizacao');
     Route::patch('/bens/{bem}/responsavel','updateResponsavel')->where('bem', '[0-9]+')->middleware(['auth', 'verified'])->name('bens.updateResponsavel');
     Route::delete('/bens/{bem}','destroy')->where('bem', '[0-9]+')->middleware(['auth', 'verified'])->name('bens.delete');
+});
+
+Route::controller(UserController::class)->group(function(){
+    Route::get('/users','index')->middleware(['auth', 'verified'])->name('users');
+    Route::delete('/users/{user}','destroy')->where('user', '[0-9]+')->middleware(['auth', 'verified'])->name('users.delete');
 });
 
 Route::middleware('auth')->group(function () {
