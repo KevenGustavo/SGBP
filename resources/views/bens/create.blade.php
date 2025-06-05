@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-2xl text-gray-800 leading-tight">
-            {{ 'Registrar Novo Bem' }}
+            Registrar Novo Bem
         </h2>
     </x-slot>
 
@@ -70,8 +70,10 @@
                 </div>
 
 
-                <div class="flex items-center gap-4">
-                    <x-primary-button>{{ __('Save') }}</x-primary-button>
+                <div class="flex items-center mt-4">
+                    <x-primary-button>
+                        Salvar
+                    </x-primary-button>
                 </div>
 
             </form>

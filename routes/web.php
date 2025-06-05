@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BemController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RelatorioController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -11,7 +12,7 @@ Route::get('/', function () {
 
 Route::controller(BemController::class)->group(function(){
     Route::get('/bens','index')->middleware(['auth', 'verified'])->name('bens');
-    Route::get('/bens/cadastrar','create')->middleware(['auth', 'verified'])->name('bens.create');
+    Route::get('/bens/registar','create')->middleware(['auth', 'verified'])->name('bens.create');
     Route::get('/bens/{bem}','show')->where('bem', '[0-9]+')->middleware(['auth', 'verified'])->name('bens.show');
     Route::post('/bens','store')->middleware(['auth', 'verified'])->name('bens.store');
     Route::get('/bens/{bem}/editar','edit')->where('bem', '[0-9]+')->middleware(['auth', 'verified'])->name('bens.edit');
@@ -22,14 +23,19 @@ Route::controller(BemController::class)->group(function(){
 });
 
 Route::controller(UserController::class)->group(function(){
-    Route::get('/users','index')->middleware(['auth', 'verified'])->name('users');
-    Route::delete('/users/{user}','destroy')->where('user', '[0-9]+')->middleware(['auth', 'verified'])->name('users.delete');
+    Route::get('/usuarios','index')->middleware(['auth', 'verified'])->name('users');
+    Route::get('/usuarios/cadastrar','create')->middleware(['auth', 'verified'])->name('users.create');
+    Route::post('/usuarios','store')->middleware(['auth', 'verified'])->name('users.store');
+    Route::delete('/usuarios/{user}','destroy')->where('user', '[0-9]+')->middleware(['auth', 'verified'])->name('users.delete');
 });
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+Route::controller(RelatorioController::class)->group(function(){
+    Route::get('/relatorios/bens','gerarRelatorioBens')->middleware(['auth', 'verified'])->name('relatorio');
 });
 
 require __DIR__.'/auth.php';

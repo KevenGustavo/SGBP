@@ -99,14 +99,13 @@ class BemController extends Controller
 
             DB::commit();
 
-            return redirect()->route("bens");
+            return redirect()->route("bens")
+                    ->with('success', 'Bem registrado!');
         } catch (Exception $e) {
             DB::rollBack();
 
-            return response()->json([
-                'message' => 'Ocorreu um erro ao criar o Bem e seu Histórico.',
-                'error' => $e->getMessage() // Opcional: enviar detalhes do erro (cuidado em produção)
-            ], 500);
+            return redirect()->route("bens")
+                    ->with('error', 'Ocorreu um erro ao tentar registrar um novo bem: ' . $e->getMessage());
         }
     }
 
@@ -137,7 +136,8 @@ class BemController extends Controller
             "descricao" => $validated["descricao"],
         ]);
 
-        return redirect()->route("bens.show", ["bem" => $bem->id]);
+        return redirect()->route("bens.show", ["bem" => $bem->id])
+                    ->with('success', 'Detalhes do Bem foram editados!');
     }
 
     public function updateLocalizacao(Request $request, Bem $bem)
@@ -157,14 +157,13 @@ class BemController extends Controller
 
             DB::commit();
 
-            return redirect()->route("bens.show", ["bem" => $bem->id]);
+            return redirect()->route("bens.show", ["bem" => $bem->id])
+                    ->with('success', 'A localização do bem foi atualizada!');
         } catch (Exception $e) {
             DB::rollBack();
 
-            return response()->json([
-                'message' => 'Ocorreu um erro ao atualizar a localização do Bem e seu Histórico.',
-                'error' => $e->getMessage() // Opcional: enviar detalhes do erro (cuidado em produção)
-            ], 500);
+            return redirect()->route("bens.show", ["bem" => $bem->id])
+                    ->with('error', 'Ocorreu um erro ao tentar atualizar a localização: ' . $e->getMessage());
         }
     }
 
@@ -185,22 +184,23 @@ class BemController extends Controller
 
             DB::commit();
 
-            return redirect()->route("bens.show", ["bem" => $bem->id]);
+            return redirect()->route("bens.show", ["bem" => $bem->id])
+                    ->with('success', 'O resposável pelo bem foi atualizado!');
         } catch (Exception $e) {
             DB::rollBack();
 
-            return response()->json([
-                'message' => 'Ocorreu um erro ao atualizao o responsavel do Bem e seu Histórico.',
-                'error' => $e->getMessage() // Opcional: enviar detalhes do erro (cuidado em produção)
-            ], 500);
+            return redirect()->route("bens.show", ["bem" => $bem->id])
+                    ->with('error', 'Ocorreu um erro ao tentar atualizar o responsável: ' . $e->getMessage());
         }
     }
 
     public function destroy( Bem $bem){
         Gate::authorize("delete", Bem::class);
+        $patrimonio = $bem->patrimonio;
 
         $bem->delete();
 
-        return redirect()->route("bens");
+        return redirect()->route("bens")
+                ->with('success', 'O bem:'.$patrimonio.' foi excluido!');
     }
 }

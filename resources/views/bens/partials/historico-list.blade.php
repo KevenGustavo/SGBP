@@ -15,9 +15,8 @@
                             <p class="text-lg font-semibold text-gray-900">
                                 {{ $historico->tipo }}
                             </p>
-                            <time datetime="2025-05-15T10:30:00"
-                                class="text-sm text-gray-500 whitespace-nowrap">
-                                {{ $historico->created_at->format("d/m/Y à\s H:i") }}
+                            <time datetime="2025-05-15T10:30:00" class="text-sm text-gray-500 whitespace-nowrap">
+                                {{ $historico->created_at->format('d/m/Y à\s H:i') }}
                             </time>
                         </div>
                         <div class="space-y-3 text-sm text-gray-700">
@@ -54,10 +53,17 @@
                                     </svg>
                                 @endif
 
-                                <span
-                                    class="bg-indigo-100 border border-indigo-200 px-3 py-1 rounded-full text-indigo-800 font-bold shadow-sm">
-                                    {{ $historico->responsavelAtual->name }}
-                                </span>
+                                @if ($historico->responsavelAtual)
+                                    <span
+                                        class="bg-indigo-100 border border-indigo-200 px-3 py-1 rounded-full text-indigo-800 font-bold shadow-sm">
+                                        {{ $historico->responsavelAtual->name }}
+                                    </span>
+                                @else
+                                    <span
+                                        class="bg-gray-100 border border-gray-300 px-3 py-1 rounded-full text-gray-500 italic shadow-sm">
+                                        Usuário Excluído
+                                    </span>
+                                @endif
                             </div>
                             <p class="text-sm text-gray-500 text-right">Registrado por:
                                 <span class="font-bold">

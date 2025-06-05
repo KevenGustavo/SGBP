@@ -4,7 +4,7 @@
             {{ 'Usuários Cadastrados' }}
         </h2>
         @can('create', App\Models\Bem::class)
-            <x-primary-link-button :href="route('bens.create')">Cadastrar Novo Usuário</x-primary-link-button>
+            <x-primary-link-button :href="route('users.create')">Cadastrar Novo Usuário</x-primary-link-button>
         @endcan
     </x-slot>
 
@@ -25,8 +25,8 @@
                             Limpar Filtro
                         </a>
                         <button type="submit"
-                            class="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                            Filtrar
+                            class="cursor-pointer inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                            Pesquisar
                         </button>
                     </div>
 
@@ -48,7 +48,8 @@
                             @forelse ($users as $user)
                                 <tr class="hover:bg-gray-50 cursor-pointer">
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                        {{ $user->name }}</td>
+                                        {{ $user->name }}
+                                    </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm ">
                                         {{ $user->email }}
                                     </td>

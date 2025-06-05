@@ -18,10 +18,11 @@
                     <x-nav-link :href="route('bens')" :active="request()->routeIs('bens')">
                         {{ __('Bens') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('users')" :active="request()->routeIs('users')">
-                        {{ __('Users') }}
-                    </x-nav-link>
-
+                    @can('viewAny', App\Models\User::class)
+                        <x-nav-link :href="route('users')" :active="request()->routeIs('users')">
+                            {{ __('Users') }}
+                        </x-nav-link>
+                    @endcan
                 </div>
             </div>
 
