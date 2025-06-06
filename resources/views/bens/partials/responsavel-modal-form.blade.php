@@ -22,7 +22,8 @@
                 <x-select-input id="responsavel" name="responsavel" required>
                     @foreach ($users as $user)
                         <option value="{{ $user->id }}" @selected(old('responsavel_id', $bem->responsavel_id) == $user->id)>
-                            {{ $user->name }}</option>
+                            {{ $user->name }}
+                        </option>
                     @endforeach
                 </x-select-input>
                 <x-input-error class="mt-2" :messages="$errors->get('responsavel')" />

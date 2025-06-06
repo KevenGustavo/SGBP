@@ -50,6 +50,7 @@ class UserController extends Controller
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'isAdmin' =>['nullable','boolean'],
         ]);
 
         $user = User::create([
@@ -57,10 +58,10 @@ class UserController extends Controller
             'email' => $request->email,
             'password' => Hash::make(Str::random(20)),
             'email_verified_at' => null,
+            'isAdmin' => $request->boolean('isAdmin'),
         ]);
 
         $token = Password::broker()->createToken($user);
-
         $user->notify(new SetupAccountNotification($token));
 
         return redirect()->route('users')

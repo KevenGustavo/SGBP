@@ -10,16 +10,17 @@ class RelatorioController extends Controller
 {
     public function gerarRelatorioBens()
     {
-        $bens = Bem::with('user')->get(); // Ou sua query específica
-        $dataParaView = ['bens' => $bens];
+        $bens = Bem::with('user')->orderBy('created_at','desc')->get();
+        $dataParaView = [
+            'bens' => $bens,
+            'dataGeracao'=>now()->format('d/m/Y H:i:s'),
+        ];
 
-        // Carrega a view e os dados, e então gera o PDF
         $pdf = Pdf::loadView('relatorios.relatorio_teste', $dataParaView);
 
         // Para fazer o download do PDF
         // return $pdf->download('relatorio_bens.pdf');
 
-        // Para exibir o PDF no navegador
         return $pdf->stream('relatorio_bens.pdf');
     }
 }

@@ -30,8 +30,6 @@ class UserObserver
     public function deleting(User $deletedUser): void
     {
         $actingUser = Auth::user();
-        $newBemOwnerId = null;
-        $newOwnerNameForLog = '';
 
         Log::info("Iniciando processo de exclusão para o usuário '{$deletedUser->name}' (ID: {$deletedUser->id}).");
 
@@ -39,11 +37,7 @@ class UserObserver
 
         if ($bensSobResponsabilidade->isNotEmpty()) {
 
-            if ($actingUser && $actingUser->id !== $deletedUser->id) {
-                $newBemOwnerId = $actingUser->id;
-                $newOwnerNameForLog = $actingUser->name;
-
-            } else {
+            if (!$actingUser || $actingUser->id == $deletedUser->id){
                 $fallbackUser = User::where('id', '!=', $deletedUser->id)->orderBy('created_at', 'asc')->first();
 
                 if (!$fallbackUser) {
@@ -52,15 +46,14 @@ class UserObserver
                     throw new Exception($errorMessage);
                 }
 
-                $newBemOwnerId = $fallbackUser->id;
-                $newOwnerNameForLog = $fallbackUser->name;
+                $actingUser = $fallbackUser;
                 Log::info("Usuário de fallback '{$fallbackUser->name}' (ID: {$fallbackUser->id}) assumirá os bens.");
             }
 
-            Log::info("Reatribuindo {$bensSobResponsabilidade->count()} bens de '{$deletedUser->name}' para '{$newOwnerNameForLog}' (ID: {$newBemOwnerId}).");
+            Log::info("Reatribuindo {$bensSobResponsabilidade->count()} bens de '{$deletedUser->name}' para '{$actingUser->name}' (ID: {$actingUser->id}).");
 
-            Bem::where('responsavel_id', $deletedUser->id)->cursor()->each(function (Bem $bem) use ($newBemOwnerId) {
-                $bem->responsavel_id = $newBemOwnerId;
+            Bem::where('responsavel_id', $deletedUser->id)->cursor()->each(function (Bem $bem) use ($actingUser) {
+                $bem->responsavel_id = $actingUser->id;
                 $bem->save();
             });
 
