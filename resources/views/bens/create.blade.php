@@ -1,85 +1,100 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-2xl text-gray-800 leading-tight">
-            Registrar Novo Bem
-        </h2>
+        <div class="flex w-full flex-col items-start sm:flex-row sm:items-center sm:justify-between">
+            <h2 class="font-semibold text-2xl text-gray-800 leading-tight">
+                Registrar Novo Bem
+            </h2>
+        </div>
     </x-slot>
 
     <x-body-page>
-        <div class="bg-white overflow-hidden shadow-xs sm:rounded-lg p-6 text-gray-900">
-            <form method="post" action="{{ route('bens.store') }}" class="space-y-6 max-w-xl">
-                @csrf
-                @method('post')
-                <div>
-                    <x-input-label for="patrimonio" :value="__('Patrimonio')" />
-                    <x-text-input id="patrimonio" name="patrimonio" type="text" class="mt-1 block w-full"
-                        :value="old('patrimonio')" required autofocus />
-                    <x-input-error class="mt-2" :messages="$errors->get('patrimonio')" />
-                </div>
+        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6 sm:p-8 text-gray-900">
+            <div class="max-w-4xl mx-auto">
+                <form method="post" action="{{ route('bens.store') }}">
+                    @csrf
 
-                <div>
-                    <x-input-label for="marca" :value="__('Marca')" />
-                    <x-text-input id="marca" name="marca" type="text" class="mt-1 block w-full"
-                        :value="old('marca')" required autofocus />
-                    <x-input-error class="mt-2" :messages="$errors->get('marca')" />
-                </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-                <div>
-                    <x-input-label for="localizacao" :value="__('Localização')" />
-                    <x-text-input id="localizacao" name="localizacao" type="text" class="mt-1 block w-full"
-                        :value="old('localizacao')" required autofocus />
-                    <x-input-error class="mt-2" :messages="$errors->get('localizacao')" />
-                </div>
+                        <div class="space-y-6">
+                            <div>
+                                <x-input-label for="patrimonio" :value="__('Patrimônio')" />
+                                <x-text-input id="patrimonio" name="patrimonio" type="text" class="mt-1 block w-full"
+                                    :value="old('patrimonio')" required autofocus />
+                                <x-input-error class="mt-2" :messages="$errors->get('patrimonio')" />
+                            </div>
 
-                <div>
-                    <x-input-label for="responsavel" :value="__('Responsavel')" />
-                    <x-select-input id="responsavel" name="responsavel" required>
-                        @foreach ($users as $user)
-                            <option value="{{ $user->id }}" @selected(old('responsavel_id') == $user->id)>
-                                {{ $user->name }}
-                            </option>
-                        @endforeach
-                    </x-select-input>
-                    <x-input-error class="mt-2" :messages="$errors->get('responsavel')" />
-                </div>
+                            <div>
+                                <x-input-label for="marca" :value="__('Marca')" />
+                                <x-text-input id="marca" name="marca" type="text" class="mt-1 block w-full"
+                                    :value="old('marca')" required />
+                                <x-input-error class="mt-2" :messages="$errors->get('marca')" />
+                            </div>
 
-                <div>
-                    <x-input-label for="tipoUso" :value="__('Tipo de Uso')" />
-                    <x-select-input id="tipoUso" name="tipoUso" required>
-                        <option value="Professor" @selected(old('tipoUso') == 'Professor')>Professor</option>
-                        <option value="Pesquisa" @selected(old('tipoUso') == 'Pesquisa')>Pesquisa</option>
-                        <option value="Extensão" @selected(old('tipoUso') == 'Extensão')>Extensão</option>
-                    </x-select-input>
-                    <x-input-error class="mt-2" :messages="$errors->get('tipoUso')" />
-                </div>
+                            <div>
+                                <x-input-label for="tipoUso" :value="__('Tipo de Uso')" />
+                                <x-select-input id="tipoUso" name="tipoUso" class="mt-1 block w-full" required>
+                                    <option value="" disabled selected>Selecione uma opção...</option>
+                                    @foreach ($tiposUso as $key => $value)
+                                        <option value="{{ $value }}" @selected(old('tipoUso') == $key)>
+                                            {{ $value }}
+                                        </option>
+                                    @endforeach
+                                </x-select-input>
+                                <x-input-error class="mt-2" :messages="$errors->get('tipoUso')" />
+                            </div>
+                        </div>
 
-                <div>
-                    <x-input-label for="estado" :value="__('Estado')" />
-                    <x-select-input id="estado" name="estado" required>
-                        <option value="Em Funcionamento" @selected(old('estado') == 'Em Funcionamento')>Em Funcionamento</option>
-                        <option value="Com Defeito" @selected(old('estado') == 'Com Defeito')>Com Defeito</option>
-                        <option value="Ocioso" @selected(old('estado') == 'Ocioso')>Ocioso</option>
-                        <option value="Em Manutenção" @selected(old('estado') == 'Em Manutenção')>Em Manutenção</option>
-                    </x-select-input>
-                    <x-input-error class="mt-2" :messages="$errors->get('estado')" />
-                </div>
+                        <div class="space-y-6">
+                            <div>
+                                <x-input-label for="localizacao" :value="__('Localização')" />
+                                <x-text-input id="localizacao" name="localizacao" type="text" class="mt-1 block w-full"
+                                    :value="old('localizacao')" required />
+                                <x-input-error class="mt-2" :messages="$errors->get('localizacao')" />
+                            </div>
 
-                <div>
-                    <x-input-label for="descricao" :value="__('Descrição')" />
-                    <textarea id="descricao" name="descricao" rows="12"
-                        class=" block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 resize-none">{{ old('descricao') }}</textarea>
-                    <x-input-error class="mt-2" :messages="$errors->get('descricao')" />
-                </div>
+                            <div>
+                                <x-input-label for="responsavel_id" :value="__('Responsável')" />
+                                <x-select-input id="responsavel_id" name="responsavel_id" class="mt-1 block w-full" required>
+                                    <option value="" disabled selected>Selecione um usuário...</option>
+                                    @foreach ($users as $user)
+                                        <option value="{{ $user->id }}" @selected(old('responsavel_id') == $user->id)>
+                                            {{ $user->name }}
+                                        </option>
+                                    @endforeach
+                                </x-select-input>
+                                <x-input-error class="mt-2" :messages="$errors->get('responsavel_id')" />
+                            </div>
 
+                            <div>
+                                <x-input-label for="estado" :value="__('Estado Inicial')" />
+                                <x-select-input id="estado" name="estado" class="mt-1 block w-full" required>
+                                     <option value="" disabled selected>Selecione uma opção...</option>
+                                    @foreach ($estados as $key => $value)
+                                        <option value="{{ $value }}" @selected(old('estado') == $key)>
+                                            {{ $value }}
+                                        </option>
+                                    @endforeach
+                                </x-select-input>
+                                <x-input-error class="mt-2" :messages="$errors->get('estado')" />
+                            </div>
+                        </div>
 
-                <div class="flex items-center mt-4">
-                    <x-primary-button>
-                        Salvar
-                    </x-primary-button>
-                </div>
+                        <div class="md:col-span-2">
+                            <x-input-label for="descricao" :value="__('Descrição')" />
+                            <textarea id="descricao" name="descricao" rows="8"
+                                class="mt-1 block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500">{{ old('descricao') }}</textarea>
+                            <x-input-error class="mt-2" :messages="$errors->get('descricao')" />
+                        </div>
+                    </div>
 
-            </form>
+                    <div class="flex items-center justify-end mt-8 pt-6 border-t">
+                        <x-primary-button>
+                            Registrar Bem
+                        </x-primary-button>
+                    </div>
+
+                </form>
+            </div>
         </div>
     </x-body-page>
-
 </x-app-layout>

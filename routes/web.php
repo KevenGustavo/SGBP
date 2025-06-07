@@ -1,14 +1,13 @@
 <?php
 
 use App\Http\Controllers\BemController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RelatorioController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::controller(BemController::class)->group(function(){
     Route::get('/bens','index')->middleware(['auth', 'verified'])->name('bens');

@@ -15,8 +15,8 @@ class BemController extends Controller
     public function index(Request $request)
     {
         $users = User::orderBy('name')->get();
-        $tiposUso = array_merge(["Todos"],Bem::TIPOS_USO);
-        $estados = array_merge(["Todos"],Bem::ESTADOS);
+        $tiposUso = array_merge(["Todos"], Bem::TIPOS_USO);
+        $estados = array_merge(["Todos"], Bem::ESTADOS);
 
         $query = Bem::with('user');
 
@@ -24,15 +24,15 @@ class BemController extends Controller
             $searchTerm = $request->input('search_query');
             $query->where(function ($q) use ($searchTerm) {
                 $q->where('patrimonio', 'LIKE', "%{$searchTerm}%")
-                  ->orWhere('marca', 'LIKE', "%{$searchTerm}%");
+                    ->orWhere('marca', 'LIKE', "%{$searchTerm}%");
             });
         }
 
-        if ($request->filled('tipo_uso') && in_array($request->input("tipo_uso"),[1,2,3])) {
+        if ($request->filled('tipo_uso') && in_array($request->input("tipo_uso"), [1, 2, 3])) {
             $query->where('tipoUso', $tiposUso[$request->input('tipo_uso')]);
         }
 
-        if ($request->filled('estado') && in_array($request->input("estado"),[1,2,3,4])) {
+        if ($request->filled('estado') && in_array($request->input("estado"), [1, 2, 3, 4])) {
             $query->where('estado', $estados[$request->input('estado')]);
         }
 
@@ -55,17 +55,19 @@ class BemController extends Controller
         Gate::authorize("create", Bem::class);
 
         $users = User::orderBy('name')->get();
+        $tiposUso = Bem::TIPOS_USO;
+        $estados = Bem::ESTADOS;
 
-        return view('bens.create', ["users" => $users]);
+        return view('bens.create', ["users" => $users, "tiposUso" => $tiposUso, "estados" => $estados]);
     }
 
     public function show(Bem $bem)
     {
-        $bem->load(["historicos"=>function($query){
-            $query->with("registrador","responsavelAnterior","responsavelAtual");
+        $bem->load(["historicos" => function ($query) {
+            $query->with("registrador", "responsavelAnterior", "responsavelAtual");
         }]);
 
-        $users = User::all();
+        $users = User::orderBy('name')->get();
 
         return view("bens.show", ["bem" => $bem, "users" => $users]);
     }
@@ -78,7 +80,7 @@ class BemController extends Controller
             "patrimonio" => ["required", "unique:bems", "max:255"],
             "marca" => ["required", "max:50"],
             "localizacao" => ["required", "max:100"],
-            "responsavel" => ["required", "exists:users,id"],
+            "responsavel_id" => ["required", "exists:users,id"],
             "tipoUso" => ["required", Rule::in(Bem::TIPOS_USO)],
             "estado" => ["required", Rule::in(Bem::ESTADOS)],
             "descricao" => ["required"],
@@ -91,7 +93,7 @@ class BemController extends Controller
                 "patrimonio" => $validated["patrimonio"],
                 "marca" => $validated["marca"],
                 "localizacao" => $validated["localizacao"],
-                "responsavel_id" => $validated["responsavel"],
+                "responsavel_id" => $validated["responsavel_id"],
                 "tipoUso" => $validated["tipoUso"],
                 "estado" => $validated["estado"],
                 "descricao" => $validated["descricao"],
@@ -100,20 +102,22 @@ class BemController extends Controller
             DB::commit();
 
             return redirect()->route("bens")
-                    ->with('success', 'Bem registrado!');
+                ->with('success', 'Bem registrado!');
         } catch (Exception $e) {
             DB::rollBack();
 
             return redirect()->route("bens")
-                    ->with('error', 'Ocorreu um erro ao tentar registrar um novo bem: ' . $e->getMessage());
+                ->with('error', 'Ocorreu um erro ao tentar registrar um novo bem: ' . $e->getMessage());
         }
     }
 
     public function edit(Bem $bem)
     {
         Gate::authorize("update", Bem::class);
+        $tiposUso = Bem::TIPOS_USO;
+        $estados = Bem::ESTADOS;
 
-        return view("bens.edit", ["bem" => $bem]);
+        return view('bens.edit', ["bem"=>$bem,"tiposUso" => $tiposUso, "estados" => $estados]);
     }
 
     public function updateDetalhes(Request $request, Bem $bem)
@@ -137,7 +141,7 @@ class BemController extends Controller
         ]);
 
         return redirect()->route("bens.show", ["bem" => $bem->id])
-                    ->with('success', 'Detalhes do Bem foram editados!');
+            ->with('success', 'Detalhes do Bem foram editados!');
     }
 
     public function updateLocalizacao(Request $request, Bem $bem)
@@ -158,12 +162,12 @@ class BemController extends Controller
             DB::commit();
 
             return redirect()->route("bens.show", ["bem" => $bem->id])
-                    ->with('success', 'A localização do bem foi atualizada!');
+                ->with('success', 'A localização do bem foi atualizada!');
         } catch (Exception $e) {
             DB::rollBack();
 
             return redirect()->route("bens.show", ["bem" => $bem->id])
-                    ->with('error', 'Ocorreu um erro ao tentar atualizar a localização: ' . $e->getMessage());
+                ->with('error', 'Ocorreu um erro ao tentar atualizar a localização: ' . $e->getMessage());
         }
     }
 
@@ -172,35 +176,36 @@ class BemController extends Controller
         Gate::authorize("update", Bem::class);
 
         $validated = $request->validate([
-            "responsavel" => ["required", "exists:users,id"],
+            "responsavel_id" => ["required", "exists:users,id"],
         ]);
 
         DB::beginTransaction();
 
         try {
             $bem->update([
-                "responsavel_id" => $validated["responsavel"],
+                "responsavel_id" => $validated["responsavel_id"],
             ]);
 
             DB::commit();
 
             return redirect()->route("bens.show", ["bem" => $bem->id])
-                    ->with('success', 'O resposável pelo bem foi atualizado!');
+                ->with('success', 'O resposável pelo bem foi atualizado!');
         } catch (Exception $e) {
             DB::rollBack();
 
             return redirect()->route("bens.show", ["bem" => $bem->id])
-                    ->with('error', 'Ocorreu um erro ao tentar atualizar o responsável: ' . $e->getMessage());
+                ->with('error', 'Ocorreu um erro ao tentar atualizar o responsável: ' . $e->getMessage());
         }
     }
 
-    public function destroy( Bem $bem){
+    public function destroy(Bem $bem)
+    {
         Gate::authorize("delete", Bem::class);
         $patrimonio = $bem->patrimonio;
 
         $bem->delete();
 
         return redirect()->route("bens")
-                ->with('success', 'O bem:'.$patrimonio.' foi excluido!');
+            ->with('success', 'O bem:' . $patrimonio . ' foi excluido!');
     }
 }

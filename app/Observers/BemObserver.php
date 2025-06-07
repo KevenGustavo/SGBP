@@ -34,7 +34,7 @@ class BemObserver
         $historicoAnterior = $bem->ultimoHistorico;
 
         if (!$actingUser){
-            $fallbackUser = User::where('isAdmin', '==', true)->orderBy('created_at', 'asc')->first();
+            $fallbackUser = User::where('isAdmin', true)->orderBy('created_at', 'asc')->first();
 
             if (!$fallbackUser) {
                 $errorMessage = "Não foi possivel achar um usuário para fazer o fallback";
