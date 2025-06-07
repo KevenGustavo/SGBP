@@ -16,6 +16,8 @@ class DashboardController extends Controller
         $cacheDuration = 900;
 
         $dashboardData = Cache::remember('dashboard.all_data', $cacheDuration, function () {
+            $estados = array_merge(["Todos"], Bem::ESTADOS);
+            $tiposUso = array_merge(["Todos"], Bem::TIPOS_USO);
 
             // --- DADOS PARA OS CARDS DE ESTATÍSTICAS (KPIs) ---
             $bemCount = Bem::count();
@@ -28,11 +30,14 @@ class DashboardController extends Controller
                 ->count();
 
             // --- DADOS PARA OS CARDS DE DISTRIBUIÇÃO ---
-
             $bensPorEstado = Bem::select('estado', DB::raw('count(*) as total'))
                 ->groupBy('estado')
                 ->orderBy('total', 'desc')
                 ->get();
+
+            $bensPorTipoUso = Bem::select('tipoUso', DB::raw('count(*) as total'))
+                ->whereNotNull('tipoUso')->groupBy('tipoUso')
+                ->orderBy('total', 'desc')->get();
 
             $topResponsaveis = Bem::with('user')
                 ->select('responsavel_id', DB::raw('count(*) as total'))
@@ -43,7 +48,6 @@ class DashboardController extends Controller
 
 
             // --- DADOS PARA OS CARDS DE ATIVIDADE RECENTE ---
-
             $bensRecentes = Bem::with('user')
                 ->latest()
                 ->take(5)
@@ -61,9 +65,12 @@ class DashboardController extends Controller
                 'bensManutencaoCount' => $bensManutencaoCount,
                 'transferenciasMesCount' => $transferenciasMesCount,
                 'bensPorEstado' => $bensPorEstado,
+                'bensPorTipoUso' => $bensPorTipoUso,
                 'topResponsaveis' => $topResponsaveis,
                 'bensRecentes' => $bensRecentes,
                 'ultimasTransferencias' => $ultimasTransferencias,
+                'estados' => $estados,
+                'tiposUso' => $tiposUso,
             ];
         });
 

@@ -6,8 +6,22 @@
             </h2>
 
             @can('create', App\Models\Bem::class)
-                <x-primary-link-button :href="route('bens.create')">Registrar Novo Bem</x-primary-link-button>
+                <div class="flex items-center space-x-2">
+                    <x-primary-link-button :href="route('bens.create')">
+                        Registrar Bem
+                    </x-primary-link-button>
+
+                    <x-primary-link-button :href="route('relatorios.bensGeral')" target="_blank">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+                        </svg>
+                        Gerar Relatório
+                    </x-primary-link-button>
+                </div>
             @endcan
+
         </div>
     </x-slot>
 
@@ -15,22 +29,18 @@
         <div class="bg-white overflow-hidden shadow-xs sm:rounded-lg p-4 sm:p-6 text-gray-900">
             <div class="container mx-auto">
 
-                {{-- FORMULÁRIO: Layout melhorado para mobile --}}
                 <form method="GET" action="{{ route('bens') }}"
                     class="bg-gray-50 border shadow-md rounded-lg p-4 sm:p-6 mb-8">
-                    {{-- Barra de pesquisa principal --}}
                     <div class="mb-6">
                         <x-input-label for="search_query" :value="__('Pesquisar por Patrimônio ou Marca')" />
                         <x-text-input id="search_query" name="search_query" type="text" class="mt-1 block w-full"
                             value="{{ request('search_query') }}" placeholder="Digite aqui..." />
                     </div>
 
-                    {{-- Grid para os filtros menores --}}
                     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                         <div>
                             <x-input-label for="tipo_uso" :value="__('Tipo de Uso')" />
                             <x-select-input id="tipo_uso" name="tipo_uso" class="mt-1 block w-full">
-                                <option value="">Todos</option> {{-- Adicionado --}}
                                 @foreach ($tiposUso as $key => $value)
                                     <option value="{{ $key }}" @selected(request('tipo_uso') == $key)>
                                         {{ $value }}
@@ -41,7 +51,6 @@
                         <div>
                             <x-input-label for="estado" :value="__('Estado')" />
                             <x-select-input id="estado" name="estado" class="mt-1 block w-full">
-                                <option value="">Todos</option> {{-- Adicionado --}}
                                 @foreach ($estados as $key => $value)
                                     <option value="{{ $key }}" @selected(request('estado') == $key)>
                                         {{ $value }}
@@ -62,15 +71,13 @@
                         </div>
                     </div>
 
-                    {{-- Botões do formulário --}}
                     <div class="mt-6 flex items-center justify-end space-x-4">
                         <a href="{{ route('bens') }}" class="text-sm font-medium text-gray-600 hover:text-gray-900">
                             Limpar Filtros
                         </a>
-                        <button type="submit"
-                            class="cursor-pointer inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                            Filtrar
-                        </button>
+                        <x-primary-button type="submit">
+                            Pesquisar
+                        </x-primary-button>
                     </div>
                 </form>
 
@@ -109,7 +116,6 @@
                     </div>
                 </div>
 
-                {{-- Visão de Cards para Dispositivos Móveis (abaixo de md) --}}
                 <div class="md:hidden space-y-4">
                     @forelse ($bens as $bem)
                         <div class="bg-white p-4 rounded-lg shadow-md border cursor-pointer" x-data

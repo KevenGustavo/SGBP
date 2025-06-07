@@ -69,28 +69,33 @@
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6">
                         <h3 class="font-semibold text-lg text-gray-800 mb-4">Distribuição por Estado</h3>
                         <ul class="space-y-4">
                             @forelse ($bensPorEstado as $status)
-                                <li class="flex justify-between items-center">
-                                    <div class="flex items-center">
-                                        @php
-                                            $cor = match ($status->estado) {
-                                                'Em Funcionamento' => 'bg-green-500',
-                                                'Em Manutenção' => 'bg-yellow-500',
-                                                'Com Defeito' => 'bg-red-500',
-                                                'Ocioso' => 'bg-gray-500',
-                                                default => 'bg-gray-300',
-                                            };
-                                        @endphp
-                                        <span class="h-2 w-2 rounded-full {{ $cor }} mr-3"></span>
-                                        <span class="text-gray-700">{{ $status->estado ?? 'N/A' }}</span>
-                                    </div>
-                                    <span
-                                        class="font-bold text-gray-900 bg-gray-200 px-3 py-1 text-sm rounded-full">{{ $status->total }}</span>
+                                <li>
+                                    <a href="{{ route('bens', ['estado' => array_search($status->estado, $estados)]) }}"
+                                        class="flex justify-between items-center p-2 -m-2 rounded-lg hover:bg-gray-100 transition duration-150 ease-in-out">
+
+                                        <div class="flex items-center">
+                                            @php
+                                                $cor = match ($status->estado) {
+                                                    'Em Funcionamento' => 'bg-green-500',
+                                                    'Em Manutenção' => 'bg-yellow-500',
+                                                    'Com Defeito' => 'bg-red-500',
+                                                    'Ocioso' => 'bg-gray-500',
+                                                    default => 'bg-gray-300',
+                                                };
+                                            @endphp
+                                            <span class="h-2 w-2 rounded-full {{ $cor }} mr-3"></span>
+                                            <span class="text-gray-700">{{ $status->estado ?? 'N/A' }}</span>
+                                        </div>
+
+                                        <span
+                                            class="font-bold text-gray-900 bg-gray-200 px-3 py-1 text-sm rounded-full">{{ $status->total }}</span>
+                                    </a>
                                 </li>
                             @empty
                                 <li class="text-gray-500">Não há dados sobre o estado dos bens.</li>
@@ -101,14 +106,41 @@
 
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6">
+                        <h3 class="font-semibold text-lg text-gray-800 mb-4">Distribuição por Tipo de Uso</h3>
+                        <ul class="space-y-1">
+                            @forelse ($bensPorTipoUso as $tipo)
+                                <li>
+                                    <a href="{{ route('bens', ['tipo_uso' => array_search($tipo->tipoUso, $tiposUso)])  }}"
+                                        class="flex justify-between items-center p-2 -m-2 rounded-lg hover:bg-gray-100 transition duration-150 ease-in-out">
+                                        <div class="flex items-center">
+                                            <span class="h-2 w-2 rounded-full bg-slate-500 mr-3"></span>
+                                            <span class="text-gray-700">{{ $tipo->tipoUso ?? 'N/A' }}</span>
+                                        </div>
+                                        <span
+                                            class="font-bold text-gray-900 bg-gray-200 px-3 py-1 text-sm rounded-full">{{ $tipo->total }}</span>
+                                    </a>
+                                </li>
+                            @empty
+                                <li class="text-gray-500">Não há dados sobre o tipo de uso dos bens.</li>
+                            @endforelse
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                    <div class="p-6">
                         <h3 class="font-semibold text-lg text-gray-800 mb-4">Top 5 Responsáveis por Bens</h3>
                         <ul class="space-y-4">
                             @forelse ($topResponsaveis as $item)
-                                <li class="flex justify-between items-center">
-                                    <span
-                                        class="text-gray-700 truncate">{{ $item->user->name ?? 'Responsável Excluído' }}</span>
-                                    <span
-                                        class="font-bold text-gray-900 bg-gray-200 px-3 py-1 text-sm rounded-full">{{ $item->total }}</span>
+                                <li>
+                                    <a href="{{ route('bens', ['responsavel_id' => $item->responsavel_id]) }}"
+                                        class="flex justify-between items-center p-2 -m-2 rounded-lg hover:bg-gray-100 transition duration-150 ease-in-out">
+                                        <span
+                                            class="text-gray-700 truncate">{{ $item->user->name ?? 'Responsável Excluído' }}</span>
+
+                                        <span
+                                            class="font-bold text-gray-900 bg-gray-200 px-3 py-1 text-sm rounded-full">{{ $item->total }}</span>
+                                    </a>
                                 </li>
                             @empty
                                 <li class="text-gray-500">Não há dados sobre responsáveis.</li>

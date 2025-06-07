@@ -49,6 +49,6 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     public function bem(){
-        return $this->hasMany(Bem::class);
+        return $this->hasMany(Bem::class,"responsavel_id");
     }
 }

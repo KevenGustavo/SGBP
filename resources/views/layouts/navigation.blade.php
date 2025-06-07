@@ -6,7 +6,7 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
+                        <x-application-logo class="block h-12 w-auto fill-current text-gray-800" />
                     </a>
                 </div>
 
@@ -18,6 +18,7 @@
                     <x-nav-link :href="route('bens')" :active="request()->routeIs('bens')">
                         {{ __('Bens') }}
                     </x-nav-link>
+
                     @can('viewAny', App\Models\User::class)
                         <x-nav-link :href="route('users')" :active="request()->routeIs('users')">
                             {{ __('Users') }}
@@ -31,7 +32,16 @@
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button
-                            class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-hidden transition ease-in-out duration-150">
+                            class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-800 bg-white hover:text-gray-700 focus:outline-hidden transition ease-in-out duration-150">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke-width="1.5" stroke="currentColor"
+                                class="h-6 w-6 border border-black rounded-xl mr-1">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4z" />
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M4 20c0-2.21 3.58-4 8-4s8 1.79 8 4" />
+                            </svg>
+
                             <div>{{ Auth::user()->name }}</div>
 
                             <div class="ms-1">
