@@ -50,7 +50,7 @@ class UserController extends Controller
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'isAdmin' =>['nullable','boolean'],
+            'isAdmin' => ['nullable', 'boolean'],
         ]);
 
         $user = User::create([
@@ -86,12 +86,12 @@ class UserController extends Controller
             DB::commit();
 
             return redirect()->route('users')
-                            ->with('success', "Usuário '{$userName}' excluído com sucesso. Bens foram reatribuídos e históricos anonimizados/atualizados.");
+                ->with('success', "Usuário '{$userName}' excluído com sucesso. Bens foram reatribuídos e históricos anonimizados/atualizados.");
         } catch (Exception $e) {
             DB::rollBack();
 
             return redirect()->route('users')
-                            ->with('error', 'Ocorreu um erro ao tentar excluir o usuário: ' . $e->getMessage());
+                ->with('error', 'Ocorreu um erro ao tentar excluir o usuário: ' . $e->getMessage());
         }
     }
 }
