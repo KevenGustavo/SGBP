@@ -7,6 +7,13 @@
         <p class="mt-1 text-sm text-gray-600">
             {{ __("Update your account's profile information and email address.") }}
         </p>
+        <p class="mt-1 text-xs text-gray-600">
+            Se ouver uma mudança de email, será enviada uma mensagem de verificação.
+        </p>
+        <p class="mt-1 text-xs text-gray-600">
+            Você não conseguira usar o sistema enquanto não for feita a confirmação.
+        </p>
+
     </header>
 
     <form id="send-verification" method="post" action="{{ route('verification.send') }}">

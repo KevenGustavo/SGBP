@@ -190,8 +190,7 @@
                                     <div class="min-w-0">
                                         <p class="font-medium text-gray-900 truncate">
                                             <a href="{{ route('bens.show', $bem) }}"
-                                                class="text-indigo-600 hover:underline">{{ $bem->nome }} (Pat:
-                                                {{ $bem->patrimonio ?? 'N/A' }})</a>
+                                                class="text-indigo-600 hover:underline">Bem: {{ $bem->patrimonio ?? 'N/A' }}</a>
                                         </p>
                                         <p class="text-sm text-gray-500 truncate">Responsável:
                                             {{ $bem->user->name ?? 'N/A' }}</p>

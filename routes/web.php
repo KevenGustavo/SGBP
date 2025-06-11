@@ -36,6 +36,7 @@ Route::middleware('auth')->group(function () {
 Route::controller(RelatorioController::class)->group(function () {
     Route::get('/relatorios/bensGeral', 'gerarRelatorioBens')->middleware(['auth', 'verified'])->name('relatorios.bensGeral');
     Route::get('/realtorios/bensResposavel/{user}', 'gerarRelatorioResponsavel')->where('user', '[0-9]+')->middleware(['auth', 'verified'])->name('relatorios.bensResposavel');
+    Route::get('/realtorios/bemFicha/{bem}', 'gerarRelatorioFichaDoBem')->where('user', '[0-9]+')->middleware(['auth', 'verified'])->name('relatorios.bemFicha');
 });
 
 require __DIR__ . '/auth.php';

@@ -9,7 +9,6 @@
         <x-body-page>
             <div
                 class="flex flex-col lg:flex-row lg:space-x-8 bg-white overflow-hidden shadow-xs sm:rounded-lg p-4 sm:p-6 text-gray-900">
-                {{-- Coluna de Informações do Bem --}}
                 <div class="w-full lg:w-3/4">
                     <dl class="text-gray-900 divide-y divide-gray-200">
                         <h3 class="text-2xl font-semibold text-gray-800 mb-4 border-b pb-2">Informações sobre o Bem</h3>
@@ -32,7 +31,12 @@
                             </div>
                             <div class="sm:col-span-1">
                                 <dt class="text-sm font-medium text-gray-600">Responsável</dt>
-                                <dd class="mt-1 text-lg font-semibold">{{ $bem->user->name ?? 'N/A' }}</p>
+                                <dd class="mt-1 text-lg font-semibold">
+                                    <a href="mailto:{{ $bem->user->email }}"
+                                        title="Enviar e-mail para {{ $bem->user->email }}"
+                                        class="text-indigo-600 hover:text-indigo-800 hover:underline transition duration-150 ease-in-out">
+                                        {{ $bem->user->name }}
+                                    </a>
                                 </dd>
                             </div>
                             <div class="sm:col-span-1">
@@ -59,7 +63,16 @@
                             <x-primary-link-button href="{{ route('bens.edit', $bem->id) }}">
                                 Editar Bem
                             </x-primary-link-button>
-                            <x-secondary-button @click="openResponsavel = true">Transferir Responsabilidade</x-secondary-button>
+                            <x-primary-link-button :href="route('relatorios.bemFicha', $bem)" target="_blank">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+                                </svg>
+                                Relatório do Bem
+                            </x-primary-link-button>
+                            <x-secondary-button @click="openResponsavel = true">Transferir
+                                Responsabilidade</x-secondary-button>
                             <x-secondary-button @click="openLocalizacao = true">Transferir Localização</x-secondary-button>
                             <x-danger-button @click="openDelete = true">Excluir Bem</x-danger-button>
                         </div>
