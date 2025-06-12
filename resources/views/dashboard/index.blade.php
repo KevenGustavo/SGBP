@@ -110,7 +110,7 @@
                         <ul class="space-y-1">
                             @forelse ($bensPorTipoUso as $tipo)
                                 <li>
-                                    <a href="{{ route('bens', ['tipo_uso' => array_search($tipo->tipoUso, $tiposUso)])  }}"
+                                    <a href="{{ route('bens', ['tipo_uso' => array_search($tipo->tipoUso, $tiposUso)]) }}"
                                         class="flex justify-between items-center p-2 -m-2 rounded-lg hover:bg-gray-100 transition duration-150 ease-in-out">
                                         <div class="flex items-center">
                                             <span class="h-2 w-2 rounded-full bg-slate-500 mr-3"></span>
@@ -172,7 +172,8 @@
                                             class="font-semibold">{{ $historico->responsavelAtual->name ?? 'Responsável Excluído' }}</span>
                                     </p>
                                     <p class="text-xs text-gray-400 mt-1">Registrado por:
-                                        {{ $historico->registrador->name ?? 'Sistema' }}</p>
+                                        {{ $historico->registrador->name ?? 'Sistema' }}
+                                    </p>
                                 </li>
                             @empty
                                 <li class="py-3 text-gray-500">Nenhuma transferência recente.</li>
@@ -188,9 +189,11 @@
                             @forelse ($bensRecentes as $bem)
                                 <li class="py-3 flex justify-between items-center">
                                     <div class="min-w-0">
-                                        <p class="font-medium text-gray-900 truncate">
+                                        <p class="font-medium text-gray-900 truncate">Bem:
                                             <a href="{{ route('bens.show', $bem) }}"
-                                                class="text-indigo-600 hover:underline">Bem: {{ $bem->patrimonio ?? 'N/A' }}</a>
+                                                class="text-indigo-600 hover:underline">
+                                                {{ $bem->patrimonio ?? 'N/A' }}
+                                            </a>
                                         </p>
                                         <p class="text-sm text-gray-500 truncate">Responsável:
                                             {{ $bem->user->name ?? 'N/A' }}</p>
