@@ -107,8 +107,9 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="5" class="px-6 py-4 text-center text-sm text-gray-500">Nenhum
-                                            bem encontrado.</td>
+                                        <td colspan="5" class="px-6 py-4 text-center text-sm text-gray-500">
+                                            Nenhum bem encontrado.
+                                        </td>
                                     </tr>
                                 @endforelse
                             </tbody>
@@ -135,7 +136,6 @@
                                 </div>
                                 <div class="flex justify-between">
                                     <span class="text-gray-500">Responsável:</span>
-                                    {{-- renomeie para 'responsavel' para corresponder ao nome do método de relacionamento --}}
                                     <span class="font-semibold text-gray-800">{{ $bem->user->name ?? 'N/A' }}</span>
                                 </div>
                             </div>
