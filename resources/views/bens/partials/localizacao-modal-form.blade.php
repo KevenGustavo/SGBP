@@ -1,7 +1,7 @@
     <div x-show="openLocalizacao" x-cloak style="display: none;" x-transition:enter="ease-out duration-300"
         x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="ease-in duration-200"
         x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
-        class="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center p-4 z-50"
+        class="fixed inset-0 bg-gray-500/80 flex items-center justify-center p-4 z-50"
         @keydown.escape.window="openLocalizacao = false">
 
         <div @click.away="openLocalizacao = false" class="bg-white rounded-lg shadow-xl w-full max-w-lg"

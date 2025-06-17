@@ -20,7 +20,7 @@
         x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
         x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100"
         x-transition:leave-end="opacity-0"
-        class="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center p-4 z-50"
+        class="fixed inset-0 bg-gray-500/80 flex items-center justify-center p-4 z-50"
         @keydown.escape.window="openDelete = false">
 
         <div @click.away="openDelete = false" class="bg-white rounded-lg shadow-xl w-full max-w-md" x-show="openDelete"
@@ -47,8 +47,7 @@
                             <p class="text-sm text-gray-600">
                                 Tem certeza que deseja excluir o usuário:
                                 <strong class="block mt-1 text-lg" x-text="userName"></strong>
-                            <p>Bens sob sua responsabilidade serão reatribuídos.</p>
-                            </p>
+                            <p>As informações sobre esse usuário serão apagadas.</p>
                         </div>
                     </div>
                 </div>
