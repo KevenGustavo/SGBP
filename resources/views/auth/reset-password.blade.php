@@ -1,9 +1,15 @@
 <x-guest-layout>
     {{-- Título principal, mais genérico --}}
     <div class="mb-6 text-center">
-        <h2 class="text-2xl font-bold text-gray-800">
-            Defina sua Nova Senha
-        </h2>
+        @if ($isFirstTimeSetup)
+            <h2 class="text-2xl font-bold text-gray-800">
+                Bem-vindo(a)! Crie sua Senha
+            </h2>
+        @else
+            <h2 class="text-2xl font-bold text-gray-800">
+                Redefinir sua Senha
+            </h2>
+        @endif
     </div>
 
     <div class="mb-6 p-4 bg-gray-100 border border-gray-200 rounded-lg text-center">
@@ -36,7 +42,11 @@
 
         <div class="flex items-center justify-end mt-6">
             <x-primary-button>
-                {{ __('Salvar Nova Senha') }}
+                @if ($isFirstTimeSetup)
+                    {{ __('Salvar Senha') }}
+                @else
+                   {{ __('Salvar Nova Senha') }}
+                @endif
             </x-primary-button>
         </div>
     </form>

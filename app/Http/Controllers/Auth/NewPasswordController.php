@@ -26,7 +26,11 @@ class NewPasswordController extends Controller
             return redirect()->route('password.request')->with('status', __('passwords.token'));
         }
 
-        return view('auth.reset-password', ['request' => $request]);
+        // Verifica se o email do usuário ainda não foi verificado.
+        // Usamos isso para saber se é o primeiro acesso ou um reset de senha.
+        $isFirstTimeSetup = is_null($user->email_verified_at);
+
+        return view('auth.reset-password', ['request' => $request, 'isFirstTimeSetup' => $isFirstTimeSetup]);
     }
 
     /**

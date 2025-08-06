@@ -44,7 +44,7 @@ class SetupAccountNotification extends Notification
 
         return (new MailMessage)
             ->subject(Lang::get('Configure Sua Conta'))
-            ->line(Lang::get('Uma conta foi criada para você em nosso sistema. Por favor, clique no botão abaixo para verificar seu e-mail e configurar sua senha.'))
+            ->line(Lang::get('Uma conta foi criada para você em nosso sistema de gestão de bens patrimoniais. Por favor, clique no botão abaixo para verificar seu e-mail e configurar sua senha.'))
             ->action(Lang::get('Configurar Conta e Definir Senha'), $setupUrl)
             ->line(Lang::get('Este link de configuração de conta expirará em :count minutos.', ['count' => config('auth.passwords.'.config('auth.defaults.passwords').'.expire')]))
             ->line(Lang::get('Se você não esperava esta conta, nenhuma ação é necessária.'));
