@@ -28,7 +28,7 @@
         .header {
             top: -2cm;
             border: 1.5px solid #000;
-            padding: 5px;
+            padding: 0.5px;
         }
 
         .footer {

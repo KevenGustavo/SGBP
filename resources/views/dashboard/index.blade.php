@@ -63,8 +63,8 @@
                         </svg>
                     </div>
                     <div>
-                        <p class="text-sm text-gray-600">Transferências (30 dias)</p>
-                        <p class="text-3xl font-bold text-gray-900">{{ $transferenciasMesCount ?? 0 }}</p>
+                        <p class="text-sm text-gray-600">Total de Transferências</p>
+                        <p class="text-3xl font-bold text-gray-900">{{ $transferenciasCount ?? 0 }}</p>
                     </div>
                 </div>
             </div>
@@ -129,17 +129,21 @@
 
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6">
-                        <h3 class="font-semibold text-lg text-gray-800 mb-4">Top 5 Responsáveis por Bens</h3>
-                        <ul class="space-y-4">
-                            @forelse ($topResponsaveis as $item)
+                        <h3 class="font-semibold text-lg text-gray-800 mb-4">Ranking de Responsáveis por Bens</h3>
+                        <ul class="space-y-1 max-h-56 overflow-y-auto pr-1">
+                            @forelse ($rankingResponsaveis as $item)
                                 <li>
                                     <a href="{{ route('bens', ['responsavel_id' => $item->responsavel_id]) }}"
-                                        class="flex justify-between items-center p-2 -m-2 rounded-lg hover:bg-gray-100 transition duration-150 ease-in-out">
-                                        <span
-                                            class="text-gray-700 truncate">{{ $item->user->name ?? 'Responsável Excluído' }}</span>
+                                        class="flex justify-between items-center p-2 rounded-lg hover:bg-gray-100 transition duration-150 ease-in-out">
 
                                         <span
-                                            class="font-bold text-gray-900 bg-gray-200 px-3 py-1 text-sm rounded-full">{{ $item->total }}</span>
+                                            class="text-gray-700 truncate pr-2">{{ $item->user->name ?? 'Responsável Excluído' }}
+                                        </span>
+
+                                        <span
+                                            class="font-bold text-gray-900 bg-gray-200 px-3 py-1 text-sm rounded-full flex-shrink-0">
+                                            {{ $item->total }}
+                                        </span>
                                     </a>
                                 </li>
                             @empty

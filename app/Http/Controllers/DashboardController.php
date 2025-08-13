@@ -24,10 +24,8 @@ class DashboardController extends Controller
             $userCount = User::count();
             $bensManutencaoCount = Bem::where('estado', 'Em Manutenção')->count();
 
-            // Contagem de transferências de responsabilidade nos últimos 30 dias
-            $transferenciasMesCount = Historico::whereNotNull('responsavel_anterior_id')
-                ->where('created_at', '>=', now()->subDays(30))
-                ->count();
+            // Contagem de transferências de responsabilidade e localização
+            $transferenciasCount = Historico::where('tipo', '!=', 'Criação do Bem')->count();
 
             // --- DADOS PARA OS CARDS DE DISTRIBUIÇÃO ---
             $bensPorEstado = Bem::select('estado', DB::raw('count(*) as total'))
@@ -39,11 +37,11 @@ class DashboardController extends Controller
                 ->whereNotNull('tipoUso')->groupBy('tipoUso')
                 ->orderBy('total', 'desc')->get();
 
-            $topResponsaveis = Bem::with('user')
+            $rankingResponsaveis = Bem::with('user')
                 ->select('responsavel_id', DB::raw('count(*) as total'))
+                ->whereNotNull('responsavel_id')
                 ->groupBy('responsavel_id')
                 ->orderBy('total', 'desc')
-                ->take(5)
                 ->get();
 
 
@@ -63,10 +61,10 @@ class DashboardController extends Controller
                 'bemCount' => $bemCount,
                 'userCount' => $userCount,
                 'bensManutencaoCount' => $bensManutencaoCount,
-                'transferenciasMesCount' => $transferenciasMesCount,
+                'transferenciasCount' => $transferenciasCount,
                 'bensPorEstado' => $bensPorEstado,
                 'bensPorTipoUso' => $bensPorTipoUso,
-                'topResponsaveis' => $topResponsaveis,
+                'rankingResponsaveis' => $rankingResponsaveis,
                 'bensRecentes' => $bensRecentes,
                 'ultimasTransferencias' => $ultimasTransferencias,
                 'estados' => $estados,
