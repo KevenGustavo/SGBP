@@ -1,61 +1,108 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# **📦 SGBP \- Sistema de Gestão de Bens Patrimoniais**
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+**Nota:** Este projeto foi desenvolvido para a coordenação do curso de Engenharia da Computação da Universidade Federal do Maranhão
 
-## About Laravel
+## **📖 Sobre o Projeto**
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+O **SGBP** é uma aplicação web robusta desenvolvida para controlar o ciclo de vida de ativos corporativos (computadores, periféricos, mobiliário). O sistema substitui controles manuais (planilhas) por uma solução centralizada que garante a integridade dos dados e rastreabilidade total.  
+O diferencial técnico deste projeto é o foco na **auditabilidade**: cada movimentação de um bem (criação, troca de responsável, mudança de localização ou exclusão) é registrada automaticamente em um histórico imutável através de **Observers do Eloquent**, garantindo segurança e confiabilidade na gestão.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## **🚀 Funcionalidades Principais**
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### **📊 Dashboard Interativo**
 
-## Learning Laravel
+Uma visão geral em tempo real da operação:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+* Total de bens ativos e excluídos.  
+* Contagem de movimentações nos últimos 30 dias.  
+* Ranking dinâmico dos usuários com mais responsabilidades.  
+* Filtros temporais e gráficos de status.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### **🔄 Controle de Ciclo de Vida (CRUD & History)**
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+* Cadastro completo de bens com validações rigorosas.  
+* **Histórico Automático:** O sistema utiliza o padrão **Observer** para monitorar mudanças no modelo Bem. Se um responsável é alterado, o sistema cria um registro na tabela historicos automaticamente, sem sujar o controller.  
+* Suporte a exclusão lógica (Soft Deletes) ou registro de baixa.
 
-## Laravel Sponsors
+### **📄 Relatórios em PDF (DomPDF)**
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Geração de documentos oficiais para assinatura e conferência:
 
-### Premium Partners
+* **Relatório Geral:** Listagem completa filtrável.  
+* **Termo de Responsabilidade:** Relatório agrupado por usuário com todos os seus bens.  
+* **Ficha do Bem:** Histórico individual detalhado de um ativo específico.
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+### **🔐 Autenticação e Segurança**
 
-## Contributing
+* Sistema de login robusto utilizando **Laravel Breeze**.  
+* Recuperação de senha via e-mail com tokens seguros.  
+* Verificação de e-mail para ativação de contas.  
+* Controle de acesso (Middleware) para proteger rotas administrativas.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## **🛠️ Tecnologias e Arquitetura**
 
-## Code of Conduct
+O projeto foi construído seguindo os princípios da arquitetura **MVC (Model-View-Controller)** e as melhores práticas do ecossistema Laravel.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+* **Backend:** Laravel 12 (PHP 8.2+).  
+* **Banco de Dados:** PostgreSQL (com chaves estrangeiras e integridade referencial).  
+* **Frontend:** Blade Templates \+ Tailwind CSS (Responsivo).  
+* **Ambiente de Desenv:** Laravel Sail (Docker & Docker Compose).  
+* **Infraestrutura:** WSL2 (Windows Subsystem for Linux).
 
-## Security Vulnerabilities
+### **Destaques de Código**
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+* **Observers:** Desacoplamento da lógica de log de histórico.  
+* **Service Layer:** Lógica de geração de relatórios isolada dos Controllers.  
+* **Query Scopes:** Reutilização de consultas complexas no Eloquent.
 
-## License
+## **🔧 Como Rodar o Projeto**
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Este projeto utiliza **Laravel Sail**, o que torna a configuração do ambiente extremamente simples, pois roda inteiramente em containers Docker.
+
+### **Pré-requisitos**
+
+* Docker Desktop instalado.  
+* WSL2 (se estiver no Windows).
+
+### **Passo a Passo**
+
+1. **Clone o repositório:**  
+   ```Bash  
+   git clone https://github.com/KevenGustavo/SGBP 
+   cd sgbp
+   ```
+
+2. **Instale as dependências (via container temporário):**  
+   ```Bash   
+   docker run --rm \  
+       -u "$(id \-u):$(id \-g)" \
+       -v "$(pwd):/var/www/html" \
+       -w /var/www/html \
+       laravelsail/php83-composer:latest \ 
+       composer install --ignore-platform-reqs
+   ```  
+3. **Configure o ambiente:**  
+   ```Bash    
+   cp .env.example .env
+   ```
+
+   *Ajuste as variáveis no arquivo .env conforme necessário.*  
+4. **Suba os containers:**  
+   ```Bash    
+   ./vendor/bin/sail up -d
+   ```
+
+5. **Gere a chave e execute as migrações:**  
+   ```Bash    
+   ./vendor/bin/sail artisan key:generate  
+   ./vendor/bin/sail artisan migrate --seed
+   ```
+
+6. **Compile os assets (Frontend):**  
+   ```Bash    
+   ./vendor/bin/sail npm install  
+   ./vendor/bin/sail npm run dev
+   ```
+
+7. **Acesse:**  
+   O sistema estará disponível em: http://localhost
