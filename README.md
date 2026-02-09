@@ -1,4 +1,4 @@
-# ** SGBP \- Sistema de Gestão de Bens Patrimoniais**
+# **SGBP \- Sistema de Gestão de Bens Patrimoniais**
 
 **Nota:** Este projeto foi desenvolvido para a coordenação do curso de Engenharia da Computação da Universidade Federal do Maranhão
 
