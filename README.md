@@ -1,15 +1,15 @@
-# **📦 SGBP \- Sistema de Gestão de Bens Patrimoniais**
+# ** SGBP \- Sistema de Gestão de Bens Patrimoniais**
 
 **Nota:** Este projeto foi desenvolvido para a coordenação do curso de Engenharia da Computação da Universidade Federal do Maranhão
 
-## **📖 Sobre o Projeto**
+## **Sobre o Projeto**
 
 O **SGBP** é uma aplicação web robusta desenvolvida para controlar o ciclo de vida de ativos corporativos (computadores, periféricos, mobiliário). O sistema substitui controles manuais (planilhas) por uma solução centralizada que garante a integridade dos dados e rastreabilidade total.  
 O diferencial técnico deste projeto é o foco na **auditabilidade**: cada movimentação de um bem (criação, troca de responsável, mudança de localização ou exclusão) é registrada automaticamente em um histórico imutável através de **Observers do Eloquent**, garantindo segurança e confiabilidade na gestão.
 
-## **🚀 Funcionalidades Principais**
+## **Funcionalidades Principais**
 
-### **📊 Dashboard Interativo**
+### **Dashboard Interativo**
 
 Uma visão geral em tempo real da operação:
 
@@ -24,7 +24,7 @@ Uma visão geral em tempo real da operação:
 * **Histórico Automático:** O sistema utiliza o padrão **Observer** para monitorar mudanças no modelo Bem. Se um responsável é alterado, o sistema cria um registro na tabela historicos automaticamente, sem sujar o controller.  
 * Suporte a exclusão lógica (Soft Deletes) ou registro de baixa.
 
-### **📄 Relatórios em PDF (DomPDF)**
+### **Relatórios em PDF (DomPDF)**
 
 Geração de documentos oficiais para assinatura e conferência:
 
@@ -32,7 +32,7 @@ Geração de documentos oficiais para assinatura e conferência:
 * **Termo de Responsabilidade:** Relatório agrupado por usuário com todos os seus bens.  
 * **Ficha do Bem:** Histórico individual detalhado de um ativo específico.
 
-### **🔐 Autenticação e Segurança**
+### **Autenticação e Segurança**
 
 * Sistema de login robusto utilizando **Laravel Breeze**.  
 * Recuperação de senha via e-mail com tokens seguros.  
@@ -55,7 +55,7 @@ O projeto foi construído seguindo os princípios da arquitetura **MVC (Model-Vi
 * **Service Layer:** Lógica de geração de relatórios isolada dos Controllers.  
 * **Query Scopes:** Reutilização de consultas complexas no Eloquent.
 
-## **🔧 Como Rodar o Projeto**
+## **Como Rodar o Projeto**
 
 Este projeto utiliza **Laravel Sail**, o que torna a configuração do ambiente extremamente simples, pois roda inteiramente em containers Docker.
 
