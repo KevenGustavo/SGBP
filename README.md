@@ -18,7 +18,7 @@ Uma visão geral em tempo real da operação:
 * Ranking dinâmico dos usuários com mais responsabilidades.  
 * Filtros temporais e gráficos de status.
 
-### **🔄 Controle de Ciclo de Vida (CRUD & History)**
+### **Controle de Ciclo de Vida (CRUD & History)**
 
 * Cadastro completo de bens com validações rigorosas.  
 * **Histórico Automático:** O sistema utiliza o padrão **Observer** para monitorar mudanças no modelo Bem. Se um responsável é alterado, o sistema cria um registro na tabela historicos automaticamente, sem sujar o controller.  
@@ -39,7 +39,7 @@ Geração de documentos oficiais para assinatura e conferência:
 * Verificação de e-mail para ativação de contas.  
 * Controle de acesso (Middleware) para proteger rotas administrativas.
 
-## **🛠️ Tecnologias e Arquitetura**
+## **Tecnologias e Arquitetura**
 
 O projeto foi construído seguindo os princípios da arquitetura **MVC (Model-View-Controller)** e as melhores práticas do ecossistema Laravel.
 
